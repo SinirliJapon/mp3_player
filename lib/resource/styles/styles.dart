@@ -11,12 +11,19 @@ abstract class Styles {
     ),
   );
 
-  static TextStyle audioTitleTextStyle(bool isPlaying, bool isCurrentItem) {
+  static TextStyle audioLeadingTextStyle = const TextStyle(color: ThemeColors.foregroundColor, fontSize: 18, fontWeight: FontWeight.w500);
+
+  static TextStyle audioTitleTextStyle(bool isCurrentItem) {
     return TextStyle(
-      color: isPlaying ? ThemeColors.primaryColor : (isCurrentItem ? ThemeColors.primaryColor : ThemeColors.foregroundColor),
-      fontWeight: isPlaying ? FontWeight.bold : FontWeight.bold,
+      color: isCurrentItem ? ThemeColors.primaryColor : ThemeColors.foregroundColor,
+      fontWeight: isCurrentItem ? FontWeight.bold : FontWeight.normal,
+      fontSize: 18,
     );
   }
 
-  static TextStyle audioSubtitleTextStyle = const TextStyle(color: Colors.white, fontWeight: FontWeight.w500);
+  static TextStyle audioSubtitleTextStyle = const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16);
+
+  static TextStyle trackTitleTextStyle = const TextStyle(color: ThemeColors.foregroundColor, fontWeight: FontWeight.bold, fontSize: 18);
+
+  static TextStyle trackSubtitleTExtStyle = const TextStyle(color: ThemeColors.foregroundColor, fontWeight: FontWeight.w500, fontSize: 16);
 }

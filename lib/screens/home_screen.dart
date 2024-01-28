@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:lottie/lottie.dart';
-import 'package:mp3_player/model/position_data.dart';
 import 'package:mp3_player/provider/audio_provider.dart';
 import 'package:mp3_player/resource/styles/styles.dart';
-import 'package:mp3_player/widgets/audio_progress_bar.dart';
-import 'package:mp3_player/widgets/controls.dart';
+import 'package:mp3_player/resource/theme_colors/theme_colors.dart';
+import 'package:mp3_player/utils/functions.dart';
+import 'package:mp3_player/widgets/current_track_info.dart';
+import 'package:mp3_player/widgets/list_tile_trailing.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,26 +19,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late AudioPlayer _audioPlayer;
   late AudioProvider _audioProvider;
-
-  Stream<PositionData> get _positionDataStream => Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-        _audioPlayer.positionStream,
-        _audioPlayer.bufferedPositionStream,
-        _audioPlayer.durationStream,
-        (position, bufferedPosition, duration) => PositionData(position, bufferedPosition, duration ?? Duration.zero),
-      );
+  bool isPlaying = true;
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
     _audioProvider = Provider.of<AudioProvider>(context, listen: false);
-    _init();
-  }
+    Functions.init(_audioPlayer, _audioProvider);
 
-  Future<void> _init() async {
-    await _audioPlayer.setLoopMode(LoopMode.all);
-    await _audioProvider.fetchAudioSongs();
-    await _audioPlayer.setAudioSource(_audioProvider.playlists, initialIndex: 0);
+    _audioPlayer.playerStateStream.listen((state) {
+      setState(() {
+        isPlaying = state.playing;
+      });
+    });
   }
 
   @override
@@ -53,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: Styles.audioBoxDecoration,
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent),
+        appBar: AppBar(backgroundColor: Colors.transparent, title: const Text('Music Player'), foregroundColor: ThemeColors.foregroundColor),
         backgroundColor: Colors.transparent,
         body: Column(
           children: [
@@ -63,45 +56,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, snapshot) {
                   final state = snapshot.data;
                   if (state?.sequence.isEmpty ?? true) {
-                    return const SizedBox();
+                    return const Center(child: Text('Audioplayer is empty...', style: TextStyle(color: ThemeColors.foregroundColor)));
+                  } else {
+                    final playListLength = state!.sequence.length;
+                    return ListView.builder(
+                      itemCount: playListLength,
+                      itemBuilder: (context, index) {
+                        final metadata = state.sequence[index].tag as MediaItem;
+                        final isCurrentItem = _audioPlayer.currentIndex == index;
+                        return ListTile(
+                          onTap: () => Functions.onTap(_audioPlayer, isPlaying, isCurrentItem, index),
+                          leading: Text('${index + 1}', style: Styles.audioLeadingTextStyle),
+                          title: Text(metadata.title),
+                          subtitle: Text(metadata.artist ?? ''),
+                          trailing: ListTileTrailing(isCurrentItem: isCurrentItem, isPlaying: isPlaying),
+                          titleTextStyle: Styles.audioTitleTextStyle(isCurrentItem),
+                          subtitleTextStyle: Styles.audioSubtitleTextStyle,
+                          iconColor: ThemeColors.foregroundColor,
+                        );
+                      },
+                    );
                   }
-                  final playListLength = state!.sequence.length;
-
-                  return ListView.builder(
-                    itemCount: playListLength,
-                    itemBuilder: (context, index) {
-                      final metadata = state.sequence[index].tag as MediaItem;
-                      final isCurrentItem = _audioPlayer.currentIndex == index;
-                      final isPlaying = isCurrentItem && _audioPlayer.playing;
-
-                      return ListTile(
-                        onTap: () {
-                          if (isCurrentItem) {
-                            if (isPlaying) {
-                              _audioPlayer.pause();
-                            } else {
-                              _audioPlayer.play();
-                            }
-                          } else {
-                            _audioPlayer.seek(Duration.zero, index: index);
-                            _audioPlayer.play();
-                          }
-                        },
-                        leading: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: Image(image: AssetImage(metadata.artUri.toString()))),
-                        title: Text(metadata.title, style: Styles.audioTitleTextStyle(isPlaying, isCurrentItem)),
-                        trailing: isPlaying ? Lottie.asset('assets/icons/soundwave.json') : const SizedBox(),
-                        subtitle: Text(metadata.artist ?? ''),
-                        subtitleTextStyle: Styles.audioSubtitleTextStyle,
-                        iconColor: Colors.white,
-                      );
-                    },
-                  );
                 },
               ),
             ),
-            const SizedBox(height: 20),
-            AudioProgressBar(positionDataStream: _positionDataStream, audioPlayer: _audioPlayer),
-            Controls(audioPlayer: _audioPlayer),
+            CurrentTrackInfo(audioPlayer: _audioPlayer, sequenceState: _audioPlayer.sequenceState, isPlaying: isPlaying),
           ],
         ),
       ),

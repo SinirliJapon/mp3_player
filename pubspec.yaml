@@ -24,6 +24,7 @@ dependencies:
   audio_session: ^0.1.18
   permission_handler: ^11.2.0
   lottie: ^3.0.0
+  marquee: ^2.2.3
 
 dev_dependencies:
   flutter_test:

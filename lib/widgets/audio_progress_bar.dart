@@ -22,14 +22,16 @@ class AudioProgressBar extends StatelessWidget {
       builder: (context, snapshot) {
         final positionData = snapshot.data;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.only(left: 4.0, right: 4.0, bottom: 4.0),
           child: ProgressBar(
             barHeight: 8.0,
-            timeLabelPadding: 16.0,
+            thumbRadius: 7.0,
             baseBarColor: ThemeColors.secondaryColor[400],
             bufferedBarColor: ThemeColors.secondaryColor,
-            progressBarColor: ThemeColors.primaryColor[400],
+            progressBarColor: ThemeColors.primaryColor.withOpacity(0.5),
             thumbColor: ThemeColors.primaryColor,
+            timeLabelLocation: TimeLabelLocation.sides,
+            timeLabelType: TimeLabelType.totalTime,
             timeLabelTextStyle: const TextStyle(color: ThemeColors.foregroundColor, fontWeight: FontWeight.w600),
             progress: positionData?.position ?? Duration.zero,
             buffered: positionData?.bufferedPosition ?? Duration.zero,

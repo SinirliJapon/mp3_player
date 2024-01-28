@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,6 @@ class AudioProvider extends ChangeNotifier {
   List<Audio> get audioSongsList => _audioSongsList;
 
   ConcatenatingAudioSource _playlists = ConcatenatingAudioSource(children: []);
-
   ConcatenatingAudioSource get playlists => _playlists;
 
   Future<void> fetchAudioSongs() async {
@@ -39,6 +39,7 @@ class AudioProvider extends ChangeNotifier {
             .toList(),
       ));
     } catch (e) {
+      log('Error: $e');
       rethrow;
     } finally {
       isLoading = false;

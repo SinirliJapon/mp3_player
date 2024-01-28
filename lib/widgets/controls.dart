@@ -48,9 +48,7 @@ class Controls extends StatelessWidget {
           },
         ),
         IconButton(
-          onPressed: () {
-            audioPlayer.seekToNext();
-          },
+          onPressed: audioPlayer.seekToNext,
           iconSize: 30,
           color: ThemeColors.foregroundColor,
           icon: const Icon(Icons.skip_next_rounded),
