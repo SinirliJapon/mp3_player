@@ -35,3 +35,8 @@ A Flutter-based MP3 player app that allows users to play local audio files and p
 Feel free to contribute to this project by opening issues, submitting pull requests, or suggesting new features. Your feedback and contributions are welcome!
 
 ## Screenshots:
+
+![1](https://github.com/SinirliJapon/mp3_player/assets/74076865/f5398d5d-3a3d-4ede-8cd5-c5fd4ce8c4b5)
+
+![2](https://github.com/SinirliJapon/mp3_player/assets/74076865/15452961-fb51-4723-845a-51c2614427bc)
+
