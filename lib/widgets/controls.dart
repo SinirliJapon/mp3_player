@@ -10,11 +10,12 @@ class Controls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
           onPressed: audioPlayer.seekToPrevious,
-          iconSize: 30,
+          iconSize: 25,
           color: ThemeColors.foregroundColor,
           icon: const Icon(Icons.skip_previous_rounded),
         ),
@@ -28,28 +29,28 @@ class Controls extends StatelessWidget {
             if (!(playing ?? false)) {
               return IconButton(
                 onPressed: audioPlayer.play,
-                iconSize: 40,
+                iconSize: 30,
                 color: ThemeColors.foregroundColor,
                 icon: const Icon(Icons.play_arrow_rounded),
               );
             } else if (processingState != ProcessingState.completed) {
               return IconButton(
                 onPressed: audioPlayer.pause,
-                iconSize: 40,
+                iconSize: 30,
                 color: ThemeColors.foregroundColor,
                 icon: const Icon(Icons.pause_rounded),
               );
             }
             return const Icon(
               Icons.play_arrow_rounded,
-              size: 40,
+              size: 30,
               color: ThemeColors.foregroundColor,
             );
           },
         ),
         IconButton(
           onPressed: audioPlayer.seekToNext,
-          iconSize: 30,
+          iconSize: 25,
           color: ThemeColors.foregroundColor,
           icon: const Icon(Icons.skip_next_rounded),
         ),

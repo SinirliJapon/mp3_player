@@ -22,7 +22,7 @@ class AudioProgressBar extends StatelessWidget {
       builder: (context, snapshot) {
         final positionData = snapshot.data;
         return Padding(
-          padding: const EdgeInsets.only(left: 4.0, right: 4.0, bottom: 4.0),
+          padding: const EdgeInsets.only(left: 2.0, right: 2.0, bottom: 15.0),
           child: ProgressBar(
             barHeight: 8.0,
             thumbRadius: 7.0,

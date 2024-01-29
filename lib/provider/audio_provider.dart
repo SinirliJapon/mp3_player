@@ -22,7 +22,9 @@ class AudioProvider extends ChangeNotifier {
     try {
       final String jsonData = await rootBundle.loadString('assets/data/audio_songs.json');
       final List<dynamic> parsedJson = jsonDecode(jsonData);
+
       _audioSongsList = parsedJson.map((json) => Audio.fromJson(json)).toList();
+
       _playlists = (ConcatenatingAudioSource(
         children: _audioSongsList
             .map(
@@ -32,7 +34,7 @@ class AudioProvider extends ChangeNotifier {
                   id: audio.id.toString(),
                   title: audio.title,
                   artist: audio.artist,
-                  artUri: Uri.parse(audio.image),
+                  artUri: Uri.file(audio.image),
                 ),
               ),
             )
