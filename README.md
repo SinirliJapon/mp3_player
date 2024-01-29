@@ -1,16 +1,37 @@
-# mp3_player
+# Flutter MP3 Player
 
-A new Flutter project.
+A Flutter-based MP3 player app that allows users to play local audio files and provides a seamless music playback experience. The app is designed with a focus on a user-friendly interface, background playback, and additional features.
+
+## Technologies Used
+
+- Flutter: [flutter.dev](https://flutter.dev/)
+- Provider: [pub.dev/packages/provider](https://pub.dev/packages/provider)
+- Just Audio: [pub.dev/packages/just_audio](https://pub.dev/packages/just_audio)
+- Just Audio Background: [pub.dev/packages/just_audio_background](https://pub.dev/packages/just_audio_background)
+- Rx Dart : [pub.dev/packages/rxdart](https://pub.dev/packages/rxdart)
+
+## Features
+
+- Play local audio files stored in the "assets/audios/" directory.
+- Integrated audio progress bar for tracking playback.
+- Utilizes the `just_audio` library for a robust audio player implementation.
+- Background playback capability using `just_audio_background`.
+- State management using the `provider` library.
+- Lottie animations for enhanced visual appeal.
+- Scrolling text (marquee) for displaying song titles.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1- Ensure you have Flutter installed on your machine.
 
-A few resources to get you started if this is your first Flutter project:
+2- Clone the repository: git clone https://github.com/SinirliJapon/mp3_player.git
+    
+3- Navigate to the project directory: cd mp3_player
+    
+4- Install dependencies : flutter pub get
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+5- Run the app: flutter run
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Feel free to contribute to this project by opening issues, submitting pull requests, or suggesting new features. Your feedback and contributions are welcome!
+
+## Screenshots:
